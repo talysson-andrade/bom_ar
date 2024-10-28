@@ -37,11 +37,11 @@ class ArCondicionado:
     def checarStatus(self) -> bool:
         return True
 
-class Sala:
-    def __init__(self, nome:str, temperaturaDesejada:float, localizacao:str, ares_condicionados:List[ArCondicionado] | None = None):
+class Ambiente:
+    def __init__(self, nome:str, temperaturaDesejada:float, cidade:str, ares_condicionados:List[ArCondicionado] | None = None):
         self.nome:str = nome
         self.temperaturaDesejada:float = temperaturaDesejada
-        self.localizacao:str = localizacao
+        self.cidade:str = cidade
         self.ares_condicionados:List[ArCondicionado] = ares_condicionados or []
 
     def adicionarArCondicionado(self, ar_condicionado:ArCondicionado) -> None:

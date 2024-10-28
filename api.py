@@ -1,21 +1,16 @@
 import requests
+from os import getenv
 
-api_key = "f0298a14f006b00aa1ea4b9a2a5932a3"
-cidade = input("Digite a cidade: ")
+API_KEY = getenv("WEATHER_API_KEY")
 
-url = f"https://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={api_key}"
+def get_temperatura_cidade(cidade:str):
+    url = f"https://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={API_KEY}"
+    request = requests.get(url).json()
 
-
-request = requests.get(url).json()
-
-if request.get('main'):
-    # Obtenha a temperatura em Kelvin
-    kelvin = request['main']['temp']
-
-    # Converta para Celsius
-    temperatura_celsius = kelvin - 273.15
-
-    # Exiba apenas a temperatura
-    print(f"A temperatura em {cidade} é: {temperatura_celsius:.2f} °C")
-else:
-    print("Cidade não encontrada. Verifique o nome e tente novamente.")
+    if request.get('main'):
+        kelvin = request['main']['temp']
+        temperatura_celsius = kelvin - 273.15
+        return temperatura_celsius
+    else:
+        print(f"A cidade {cidade} não foi encontrada. Verifique o nome")
+        return
