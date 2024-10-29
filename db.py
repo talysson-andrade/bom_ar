@@ -22,10 +22,10 @@ def run_query(query:str, values:tuple | None = None):
 
 def insert_ambiente(ambiente:Ambiente):
     query = """
-    INSERT INTO Ambiente (nome, temperatura_desejada, cidade, carga_termica)
+    INSERT INTO Ambiente (nome, temperatura_desejada, cidade)
     VALUES (%s, %s, %s)
     """
-    values = (ambiente.nome, ambiente.temperaturaDesejada, ambiente.cidade, ambiente.carga_termica)
+    values = (ambiente.nome, ambiente.temperaturaDesejada, ambiente.cidade,)
     
     try:
         run_query(query, values)

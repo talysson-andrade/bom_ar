@@ -42,7 +42,6 @@ class Ambiente:
         self.nome:str = nome
         self.temperaturaDesejada:float = temperaturaDesejada
         self.cidade:str = cidade
-        self.carga_termica:int = carga_termica
         self.ares_condicionados:List[ArCondicionado] = ares_condicionados or []
         self.id = id
 
