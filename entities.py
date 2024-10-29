@@ -38,11 +38,12 @@ class ArCondicionado:
         return True
 
 class Ambiente:
-    def __init__(self, nome:str, temperaturaDesejada:float, cidade:str, ares_condicionados:List[ArCondicionado] | None = None):
+    def __init__(self, nome:str, temperaturaDesejada:float, cidade:str, ares_condicionados:List[ArCondicionado] | None = None, id:int | None = None):
         self.nome:str = nome
         self.temperaturaDesejada:float = temperaturaDesejada
         self.cidade:str = cidade
         self.ares_condicionados:List[ArCondicionado] = ares_condicionados or []
+        self.id = id
 
     def adicionarArCondicionado(self, ar_condicionado:ArCondicionado) -> None:
         self.ares_condicionados.append(ar_condicionado)
@@ -56,6 +57,8 @@ class Ambiente:
 
     def getTemperaturaSala(self) -> float:
         temp_total:float = 0.0
+        if not self.ares_condicionados:
+            return 0.0
         for ar in self.ares_condicionados:
             temp_total += ar.getTemperaturaSensor()
         temp_sala:float = temp_total / float(len(self.ares_condicionados))

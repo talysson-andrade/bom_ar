@@ -58,11 +58,26 @@ def get_ambientes():
             ares = get_ares(row[0])
             if not ares:
                 ares = None
-            ambiente = Ambiente(row[1],row[2], row[3], ares)
+            ambiente = Ambiente(row[1],row[2], row[3], ares_condicionados=ares, id=row[0])
             ambientes.append(ambiente)
         return ambientes
     except Exception as e:
         print(f"Houve um erro ao buscar Ambientes no Banco de Dados: {e}")
+        return
+
+def alterar_ambiente(ambiente:Ambiente):
+    query = """
+    UPDATE Ambiente 
+    SET nome = %s, temperatura_desejada = %s
+    WHERE id = %s 
+    """
+    values = (ambiente.nome, ambiente.temperaturaDesejada, ambiente.id,)
+    try:
+        run_query(query, values)
+        print("Ambiente atualizado")
+        return
+    except Exception as e:
+        print(f"Ocorreu um erro ao atualizar o Ambiente: {e}")
         return
 
 def get_ares(ambiente_id):
