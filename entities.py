@@ -38,10 +38,11 @@ class ArCondicionado:
         return True
 
 class Ambiente:
-    def __init__(self, nome:str, temperaturaDesejada:float, cidade:str, ares_condicionados:List[ArCondicionado] | None = None):
+    def __init__(self, nome:str, temperaturaDesejada:float, cidade:str, carga_termica:int, ares_condicionados:List[ArCondicionado] | None = None):
         self.nome:str = nome
         self.temperaturaDesejada:float = temperaturaDesejada
         self.cidade:str = cidade
+        self.carga_termica:int = carga_termica
         self.ares_condicionados:List[ArCondicionado] = ares_condicionados or []
 
     def adicionarArCondicionado(self, ar_condicionado:ArCondicionado) -> None:

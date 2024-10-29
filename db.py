@@ -22,10 +22,10 @@ def run_query(query:str, values:tuple | None = None):
 
 def insert_ambiente(ambiente:Ambiente):
     query = """
-    INSERT INTO Ambiente (nome, temperatura_desejada, cidade)
+    INSERT INTO Ambiente (nome, temperatura_desejada, cidade, carga_termica)
     VALUES (%s, %s, %s)
     """
-    values = (ambiente.nome, ambiente.temperaturaDesejada, ambiente.cidade,)
+    values = (ambiente.nome, ambiente.temperaturaDesejada, ambiente.cidade, ambiente.carga_termica)
     
     try:
         run_query(query, values)
@@ -80,3 +80,5 @@ def get_ares(ambiente_id):
     except Exception as e:
         print(f"Houve um erro ao buscar Ares_condicionados no Banco de Dados: {e}")
         return
+
+
