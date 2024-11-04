@@ -28,19 +28,20 @@ def menu():
     print("Insira o valor do ambiente para ver mais configurações")
     print("(S)air    (N)ovo")
     resposta = input(">>> ")
+    resposta = resposta.lower()
     
     match resposta:
-        case "S":
+        case "s":
             limpar_cmd()
             exit(0)
-        case "N":
+        case "n":
             print("")
             nome = input("Insira um nome para o novo Ambiente: \n>>> ")
             cidade = input("Insira a cidade em que esse Ambiente se localiza: \n>>> ")
             temperatura_desejada = float(input("Insira o valor da temperatura que deseja que este Ambiente se mantenha (ex: 23.5): \n>>> "))
             ambiente = Ambiente(nome, temperatura_desejada, cidade)
             db.insert_ambiente(ambiente)
-            sleep(2)
+            sleep(1)
             ambientes.clear()
             ambientes = db.get_ambientes() # Renova a lista de Ambientes
             menu()
@@ -50,18 +51,19 @@ def menu():
                 index = int(resposta) - 1
                 if index >= len(ambientes):
                     print("Número Inválido: O número deve corresponder a um dos ambientes listados")
-                    sleep(2)
+                    sleep(1)
                     menu()
                 conf_ambiente(index)
             else: 
                 print("Resposta Invalída...")
-                sleep(2)
+                sleep(1)
                 menu()
 
 def conf_ambiente(index:int):
+    global ambientes
     ambiente = ambientes[index]
-    temp_cidade = round(get_temperatura_cidade(ambiente.cidade), 1)
     limpar_cmd()
+    temp_cidade = round(get_temperatura_cidade(ambiente.cidade), 1)
     print("                      Ambiente")
     print("_________________________________________________________")
     print(f"Nome:  {ambiente.nome}")
@@ -82,42 +84,75 @@ def conf_ambiente(index:int):
     print("Selecione uma das seguintes opções ou insira o número do Ar-condicionado:")
     print("(A)dicionar Novo Ar-condicionado   |   Alterar (T)emperatura Desejada   |   (V)oltar")
     resposta = input(">>> ")
+    resposta = resposta.lower()
     
     match resposta:
-        case "A":
+        case "a":
             nome = input("Insira um nome para o novo Ar-condicionado: \n>>> ")
             marca = input("Insira a marca do novo Ar-condicionado: \n>>> ")
             capacidade = int(input("Insira o valor da capacidade do novo Ar-condicionado (BTUs/h): \n>>> "))
             ar = ArCondicionado(nome, marca, capacidade)
             ambiente.adicionarArCondicionado(ar)
             db.insert_ar(ar, ambiente.id)
-            sleep(2)
+            sleep(1)
             conf_ambiente(index)
-        case "T":
+        case "t":
             print("")
             nova_temperatura = float(input("Insira o valor da nova temperatura desejada (ex: 24.5): \n>>> "))
             ambiente.temperaturaDesejada = nova_temperatura
             db.alterar_ambiente(ambiente)
-            sleep(2)
+            sleep(1)
             conf_ambiente(index)
-        case "V":
+        case "v":
             menu()
         case _:
             if resposta.isdigit():
                 index_ar = int(resposta) - 1
-                index = index_ar
                 if index >= len(ambientes):
                     print("Número Inválido: O número deve corresponder a um dos ambientes listados")
-                    sleep(2)
+                    sleep(1)
                     conf_ambiente(index)
-                conf_arcondicionado(index_ar)
+                conf_arcondicionado(ambiente.ares_condicionados[index_ar], index)
             else: 
                 print("Resposta Invalída...")
-                sleep(2)
+                sleep(1)
                 conf_ambiente(index)
 
-def conf_arcondicionado(index:int):
-    print("ar")
+def conf_arcondicionado(ar_condicionado:ArCondicionado, index_ambiente:int):
+    limpar_cmd()
+    print("                   Ar-condicionado")
+    print()
+    print(f"Nome: {ar_condicionado.nome}")
+    print(f"Marca: {ar_condicionado.marca}")
+    if ar_condicionado.estaLigado:
+        print("         Ligado")
+        print(f"Sensor de Temperatura: {ar_condicionado.getTemperaturaSensor()}")
+    else:
+        print("         Desligado")
+
+    print("_________________________________________________________")
+    print("Selecione uma das seguintes opções: ")
+    if ar_condicionado.estaLigado:
+        print("(D)esligar   (A)lterar Nome    (V)oltar")
+    else:
+        print("(L)igar     (A)lterar Nome    (Voltar)")
+    resposta = input(">>> ")
+    resposta = resposta.lower()
+
+    match resposta:
+        case "d":
+            ar_condicionado.desligar()
+            sleep(1)
+            conf_arcondicionado(ar_condicionado, index_ambiente)
+        case "a":
+            ar_condicionado.nome = input("Insira um novo nome para o Ar-condicionado:\n>>> ")
+            db.alterar_ar_condicionado(ar_condicionado)
+            sleep(1)
+            conf_arcondicionado(ar_condicionado, index_ambiente)
+        case "v":
+            print(index_ambiente)
+            sleep(3)
+            conf_ambiente(index_ambiente)
 
 def main():
     menu()
@@ -130,4 +165,3 @@ def limpar_cmd():
 
 if __name__ == "__main__":
     main()
-

@@ -1,12 +1,13 @@
 from typing import List
 
 class ArCondicionado:
-    def __init__(self, nome:str, marca:str, capacidade:int):
+    def __init__(self, nome:str, marca:str, capacidade:int, index:int | None = None):
         self.nome:str = nome
         self.marca:str = marca
         self.capacidade_total:int = capacidade
         self.estaLigado:bool = self.checarStatus()
         self.capacidade_atual:int = self.getCapacidadeAtual()
+        self.index = index
 
     def regularPotencia(self, fatorPotencia:float) -> None:
         self.capacidade_atual = int(float(self.capacidade_total) * fatorPotencia)
@@ -64,3 +65,10 @@ class Ambiente:
         temp_sala:float = temp_total / float(len(self.ares_condicionados))
         return temp_sala
 
+    def getCargaTermica(self):
+        carga_termica = 0
+        if not self.ares_condicionados:
+            return carga_termica
+        for ar in self.ares_condicionados:
+            carga_termica += ar.capacidade_total
+        return carga_termica

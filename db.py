@@ -89,11 +89,25 @@ def get_ares(ambiente_id):
     try:
         rows = run_query(query, values)
         for row in rows:
-            ar = ArCondicionado(nome=row[1], marca=row[2], capacidade=row[3])
+            ar = ArCondicionado(nome=row[1], marca=row[2], capacidade=row[3], index=row[0])
             ares.append(ar)
         return ares
     except Exception as e:
         print(f"Houve um erro ao buscar Ares_condicionados no Banco de Dados: {e}")
         return
 
+def alterar_ar_condicionado(ar_condicionado:ArCondicionado):
+    query = """
+    UPDATE Ar_condicionado
+    SET nome = %s, marca = %s
+    WHERE id = %s
+        """
+    values = (ar_condicionado.nome, ar_condicionado.marca, ar_condicionado.index,)
+    try:
+        run_query(query, values)
+        print("Ar-condicionado atualizado no Banco de Dados")
+        return
+    except Exception as e:
+        print(f"Ocorreu um erro ao atualizar o Ar-condicionado no Banco de Dados: {e}")
+        return
 
