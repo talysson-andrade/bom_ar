@@ -103,7 +103,21 @@ def conf_ambiente(index:int):
         case "V":
             menu()
         case _:
-            print("")
+            if resposta.isdigit():
+                index_ar = int(resposta) - 1
+                index = index_ar
+                if index >= len(ambientes):
+                    print("Número Inválido: O número deve corresponder a um dos ambientes listados")
+                    sleep(2)
+                    conf_ambiente(index)
+                conf_arcondicionado(index_ar)
+            else: 
+                print("Resposta Invalída...")
+                sleep(2)
+                conf_ambiente(index)
+
+def conf_arcondicionado(index:int):
+    print("ar")
 
 def main():
     menu()

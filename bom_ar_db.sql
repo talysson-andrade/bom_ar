@@ -1,6 +1,5 @@
-SET @@SESSION.SQL_LOG_BIN= 0;
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'f5e8832b-8729-11ef-94d6-42010a400002:1-346';
+
 
 DROP TABLE IF EXISTS `Ambiente`;
 
@@ -45,4 +44,4 @@ LOCK TABLES `Ar_condicionado` WRITE;
 INSERT INTO `Ar_condicionado` VALUES (1,'Ar Sala 1','Daikin',9000,1),(2,'Ar Sala 2','Daikin',9000,1),(3,'Ar cozinha','Daikin',9000,3),(4,'Ar Quarto','Samsung',7500,2);
 /*!40000 ALTER TABLE `Ar_condicionado` ENABLE KEYS */;
 UNLOCK TABLES;
-SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
+ambiente
