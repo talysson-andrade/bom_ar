@@ -58,7 +58,7 @@ def get_ambientes():
             ares = get_ares(row[0])
             if not ares:
                 ares = None
-            ambiente = Ambiente(row[1],row[2], row[3], ares_condicionados=ares, id=row[0])
+            ambiente = Ambiente(row[1],float(row[2]), row[3], ares_condicionados=ares, id=row[0])
             ambientes.append(ambiente)
         return ambientes
     except Exception as e:

@@ -1,4 +1,5 @@
 from typing import List
+import requests
 
 class ArCondicionado:
     def __init__(self, nome:str, marca:str, capacidade:int, index:int | None = None):
@@ -6,15 +7,15 @@ class ArCondicionado:
         self.marca:str = marca
         self.capacidade_total:int = capacidade
         self.estaLigado:bool = self.checarStatus()
-        self.capacidade_atual:int = self.getCapacidadeAtual()
         self.index = index
 
     def regularPotencia(self, fatorPotencia:float) -> None:
-        self.capacidade_atual = int(float(self.capacidade_total) * fatorPotencia)
-        print(f"A capacidade atual do Ar-condicionado {self.nome} foi ajustada para {self.capacidade_atual}")
+        capacidade_atual = int(float(self.capacidade_total) * fatorPotencia)
+        print(f"A capacidade atual do Ar-condicionado {self.nome} foi ajustada para {capacidade_atual}")
 
     def getTemperaturaSensor(self) -> float:
-        return 25.0
+        dados = self.__get_valores()
+        return dados["temperaturaSensor"]
     
     def ligar(self) -> None:
         if self.estaLigado == True:
@@ -33,10 +34,25 @@ class ArCondicionado:
         return
 
     def getCapacidadeAtual(self) -> int:
-        return 12000
+        dados = self.__get_valores()
+        return dados["capacidadeAtual"]
 
     def checarStatus(self) -> bool:
-        return True
+        dados = self.__get_valores()
+        return dados["estado"]
+    
+    def modoBaixoConsumo(self) -> None:
+        print(f"Ativando modo de baixo consumo ativado no ar-condicionado {self.nome}")
+        self.regularPotencia(0.1)
+        return
+    
+    def __get_valores(self):
+        try:
+            resposta = requests.get(f"http://localhost:5000/ar/{self.index}")
+            resposta.json()
+            return resposta
+        except Exception as e:
+            return {"temperaturaSensor": 25.0, "capacidadeAtual": 0, "estado": False}
 
 class Ambiente:
     def __init__(self, nome:str, temperaturaDesejada:float, cidade:str, ares_condicionados:List[ArCondicionado] | None = None, id:int | None = None):

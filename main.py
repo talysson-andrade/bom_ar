@@ -150,8 +150,6 @@ def conf_arcondicionado(ar_condicionado:ArCondicionado, index_ambiente:int):
             sleep(1)
             conf_arcondicionado(ar_condicionado, index_ambiente)
         case "v":
-            print(index_ambiente)
-            sleep(3)
             conf_ambiente(index_ambiente)
 
 def main():
