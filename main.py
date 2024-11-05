@@ -14,7 +14,8 @@ def listar_ambientes():
         print("Nenhum ambiente foi registrado")
     print()
     for ambiente in ambientes:
-        print(f"{ambientes.index(ambiente) + 1 }. {ambiente.nome} - Temperatura Desejada: {ambiente.temperaturaDesejada} - Temperatura do Ambiente: {ambiente.getTemperaturaSala()} °C")
+        temperatura_sala = ambiente.getTemperaturaSala()
+        print(f"{ambientes.index(ambiente) + 1 }. {ambiente.nome} - Temperatura Desejada: {ambiente.temperaturaDesejada} - Temperatura do Ambiente: {round(ambiente.getTemperaturaSala())} °C")
     print()
 
 def menu():
@@ -126,7 +127,7 @@ def conf_arcondicionado(ar_condicionado:ArCondicionado, index_ambiente:int):
     print(f"Marca: {ar_condicionado.marca}")
     if ar_condicionado.estaLigado:
         print("         Ligado")
-        print(f"Sensor de Temperatura: {ar_condicionado.getTemperaturaSensor()}")
+        print(f"Sensor de Temperatura: {round(ar_condicionado.getTemperaturaSensor(), 1)}")
     else:
         print("         Desligado")
 
@@ -151,6 +152,14 @@ def conf_arcondicionado(ar_condicionado:ArCondicionado, index_ambiente:int):
             conf_arcondicionado(ar_condicionado, index_ambiente)
         case "v":
             conf_ambiente(index_ambiente)
+        case "l":
+            ar_condicionado.ligar()
+            sleep(1)
+            conf_arcondicionado(ar_condicionado, index_ambiente)
+        case _:
+            print("Resposta Invalída...")
+            sleep(1)
+            conf_arcondicionado(ar_condicionado, index_ambiente)
 
 def main():
     menu()

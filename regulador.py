@@ -13,17 +13,24 @@ def main():
             exit(1)
         for ambiente in ambientes:
             print()
-            print(f"Verificando Ambiente {ambiente.nome}")
-            print(f"Temperatura do ambiente: {ambiente.getTemperaturaSala()} °C")
+            print("             Verificando Ambiente")
+            print(f"{ambiente.nome}")
+
+            temp_ambiente = ambiente.getTemperaturaSala()
+            if temp_ambiente == 0.0:
+                print(f"Não há nenhum ar-condicionado relacionado a este ambiente")
+                continue
+            else:
+                print(f"        Temperatura do ambiente: {round(temp_ambiente, 1)} °C")
             temp_cidade = get_temperatura_cidade(ambiente.cidade)
             if temp_cidade is not None:
-                print(f"Temperatura Externa: {temp_cidade} °C")
-            print(f"Temperatura Desejada: {ambiente.temperaturaDesejada} °C")
-            print("Regulando a Temperatura do ambiente...")
+                print(f"        Temperatura Externa: {round(temp_cidade,1)} °C")
+            print(f"        Temperatura Desejada: {ambiente.temperaturaDesejada} °C")
+            print("             Regulando a Temperatura do ambiente...")
             regular_temp(ambiente, temp_cidade)
         sleep(30)
             
-def regular_temp(ambiente:Ambiente, temp_externa:float):
+def regular_temp(ambiente:Ambiente, temp_externa):
     #Considerando que os ares-condicionados foram corretamente dimencionados no ambiente com uma capacidade máxima capaz de suportar um caso extremo de 38 °C 
     #Vamos calcular a capacidade em que os ares devem trabalhar a partir deste valor 
     carga_termica_ambiente_maxima = ambiente.getCargaTermica()
@@ -31,6 +38,9 @@ def regular_temp(ambiente:Ambiente, temp_externa:float):
     temperatura_sala = ambiente.getTemperaturaSala()
     if temperatura_sala is None:
         #Caso não seja possível obter informações dos sensores dos ares, usa a temperatura externa
+        if temp_externa is None:
+            print("Não é possível regular a temperatura do ar-condicionado. Houveram erros ao buscar pelas informações de temperatura do ar-condicionado e do clima.")
+            return
         temperatura_sala = temp_externa
     diferenca_temperatura_atual = ambiente.getTemperaturaSala() - ambiente.temperaturaDesejada
     if int(diferenca_temperatura_atual) <= 0:

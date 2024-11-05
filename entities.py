@@ -5,17 +5,19 @@ class ArCondicionado:
     def __init__(self, nome:str, marca:str, capacidade:int, index:int | None = None):
         self.nome:str = nome
         self.marca:str = marca
-        self.capacidade_total:int = capacidade
-        self.estaLigado:bool = self.checarStatus()
         self.index = index
+        self.capacidade_total:int = capacidade
+        dados = self.__get_valores()
+        self.estaLigado:bool = dados["estado"]
+        self.capacidade_atual = dados["capacidadeAtual"]
+        self.temperatura_sensor = dados["temperaturaSensor"]
 
     def regularPotencia(self, fatorPotencia:float) -> None:
         capacidade_atual = int(float(self.capacidade_total) * fatorPotencia)
         print(f"A capacidade atual do Ar-condicionado {self.nome} foi ajustada para {capacidade_atual}")
 
     def getTemperaturaSensor(self) -> float:
-        dados = self.__get_valores()
-        return dados["temperaturaSensor"]
+        return self.temperatura_sensor
     
     def ligar(self) -> None:
         if self.estaLigado == True:
@@ -34,12 +36,10 @@ class ArCondicionado:
         return
 
     def getCapacidadeAtual(self) -> int:
-        dados = self.__get_valores()
-        return dados["capacidadeAtual"]
+        return self.capacidade_atual
 
     def checarStatus(self) -> bool:
-        dados = self.__get_valores()
-        return dados["estado"]
+        return self.estaLigado
     
     def modoBaixoConsumo(self) -> None:
         print(f"Ativando modo de baixo consumo ativado no ar-condicionado {self.nome}")
@@ -49,8 +49,8 @@ class ArCondicionado:
     def __get_valores(self):
         try:
             resposta = requests.get(f"http://localhost:5000/ar/{self.index}")
-            resposta.json()
-            return resposta
+            dados = resposta.json()
+            return dados
         except Exception as e:
             return {"temperaturaSensor": 25.0, "capacidadeAtual": 0, "estado": False}
 

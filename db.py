@@ -96,6 +96,18 @@ def get_ares(ambiente_id):
         print(f"Houve um erro ao buscar Ares_condicionados no Banco de Dados: {e}")
         return
 
+def get_todos_ares():
+    ares:list = []
+    query = "SELECT * FROM Ar_condicionado"
+    try:
+        rows = run_query(query)
+        for row in rows:
+            ar = {"id": row[0], "nome": row[1], "marca": row[2], "capacidadeTotal": row[3]}
+            ares.append(ar)
+        return ares
+    except Exception as e:
+        print(f"Houve um erro ao buscar os ares do Banco de Dados: {e}")
+        return
 def alterar_ar_condicionado(ar_condicionado:ArCondicionado):
     query = """
     UPDATE Ar_condicionado
