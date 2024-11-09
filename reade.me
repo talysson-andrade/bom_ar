@@ -1,0 +1,59 @@
+# Bom Ar: Sistema de Gerenciamento de Ar-Condicionado
+
+Este projeto Python gerencia ares-condicionados e ambientes, simulando seu funcionamento e regulando a temperatura.
+
+## Requisitos
+
+* Python 3.12 ou superior
+* Banco de dados MySQL
+
+## Instalação
+
+descompacte o arquivo .zip na pasta desejada.
+
+Instale as dependências:
+
+		pip install -r requirements.txt
+
+Configuração do Banco de Dados
+
+Variáveis de Ambiente:
+
+O programa utiliza as seguintes variáveis de ambiente:
+
+AR_DB_DATABASE: Nome do banco de dados/schema.
+
+AR_DB_USER: Usuário do banco de dados.
+
+AR_DB_PASSWORD: Senha do usuário do banco de dados.
+
+AR_DB_HOST: Host do banco de dados (use localhost para local).
+
+WEATHER_API_KEY: Chave da API de clima (fixa para este projeto): f0298a14f006b00aa1ea4b9a2a5932a3.
+
+Para instruções sobre como configurar variáveis de ambiente em seu sistema operacional, consulte: https://www.alura.com.br/artigos/configurar-variaveis-ambiente-windows-linux-macos
+
+Criando o banco de dados:
+
+Após configurar as variáveis de ambiente, execute o script setar_banco.py para criar o banco de dados e popular com dados iniciais:
+
+		python setar_banco.py
+
+Gerenciando Ares-Condicionados e Ambientes
+
+O script main.py permite gerenciar os ares-condicionados e ambientes cadastrados no banco de dados.
+
+		python main.py
+
+Simulando Dados de Ar-Condicionado (simulador.py)
+
+O script simulador.py simula respostas dos ares-condicionados com dados aleatórios. Execute-o em paralelo com main.py ou regulador.py para simular um cenário real com dados em tempo real.
+
+python simulador.py
+
+Regulação de Temperatura (regulador.py)
+
+O script regulador.py controla os ares-condicionados em todos os ambientes para regular a temperatura. Ele simula um programa que busca dados dos ares cadastrados e ajusta seu funcionamento.
+
+python regulador.py
+

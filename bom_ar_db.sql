@@ -15,7 +15,7 @@ CREATE TABLE `Ambiente` (
 --
 
 LOCK TABLES `Ambiente` WRITE;
-INSERT INTO `Ambiente` VALUES (1,'Sala de Estar',23.0,'São Paulo'),(2,'Quarto',21.5,'São Paulo'),(3,'Cozinha',23.0,'São Paulo');
+INSERT INTO `Ambiente` VALUES (1,'Sala de Estar',23.0,'Rio de Janeiro'),(2,'Quarto',21.5,'Rio de Janeiro'),(3,'Cozinha',23.0,'Rio de Janeiro');
 UNLOCK TABLES;
 
 --
